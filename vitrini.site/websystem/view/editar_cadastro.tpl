@@ -1,3 +1,7 @@
+<input type="hidden" name="token" id="token" value="<?=$token;?>">
+<input type="hidden" name="cpf" id="cpf" value="<?=$cpf;?>">
+
+
 <div class="row text-center top-space">
 	<div class="columns small-12 top-space">
 		Bem-vindo ao pré cadastro de dados
@@ -20,18 +24,11 @@
 						CPF:
 					</div>
 				</div>
-				<div class="columns small-12 medium-4">
+				<div class="columns small-12 medium-10">
 					<div class="input-data-container">
-						<input autocomplete="off" required class="input-data" type="text" id="usuario-cpf">
+						<input autocomplete="off" disabled required value="<?php echo $cpf;?>" class="input-data" type="text" id="usuario-cpf">
 					</div>
 				</div>
-				<div class="columns small-12 medium-6">
-					<div class="input-data-container">
-						<input autocomplete="off" required class="input-data" value="Verificar" type="button" id="usuario-verifica-cpf">
-					</div>
-				</div>
-
-			<div class="hide-data">
 
 
 				<div class="columns small-12 medium-2">
@@ -52,7 +49,7 @@
 				</div>
 				<div class="columns small-12 medium-4">
 					<div class="input-data-container">
-						<input autocomplete="off" required class="input-data" type="number" id="usuario-rg">
+						<input autocomplete="off" required class="input-data" type="text" id="usuario-rg">
 					</div>
 				</div>
 
@@ -1101,7 +1098,6 @@
 					</div>
 
 				</div>
-			  </div>
 			</div>
 		</div>
 
@@ -1123,82 +1119,122 @@
 </form>
 
 
+
 <script type="text/javascript">
-$(document).ready(function() {
+	$(document).ready(function() {
 
-	var valid = false;
+		function sucesso(dados) {
 
- 	$('#usuario-cpf').on('keypress', function (e) {
+			console.log(dados)
 
- 		if (!valid) {
+			for (key in dados) {
 
-	     if(e.which === 13){
-      		e.preventDefault();
-      		$("#usuario-verifica-cpf").click();
-	     }
- 		}
-   });
+				var index = key;
+				index = index.replace(/_/gi, "-");
 
-	$('#usuario-verifica-cpf').on('click',function(){
-	  var id = $('#usuario-verifica-cpf').data('id'),
-	      $this = $(this);
-
-	  if ($this.prop('disabled') ){
-	  	return;
-	  }
-
-	  $this.val("Aguarde enquanto verificamos o sistema...");
-	  $this.attr('disabled', 'disabled');
-	  $("#usuario-cpf").attr('disabled', 'disabled');
-
-	  var cpf = $("#usuario-cpf").val();
-
-    $.ajax({
-	    url: 'http://localhost:8887/vitrini.api/public/index.php/user_cpf_status',
-      dataType: 'json',
-      data:{'cpf':cpf},
-      type: 'POST',
-      success: function(json) {
-	    		$this.remove();
-	    		valid = true;
-	    		$('.hide-data').show();
-      }, error: function(json) {
-	    	if (json.status == 409) {
-	    		alert(json.responseJSON);
-	    		window.location = "?page=autenticar_editar_cadastro&cpf=" + cpf
-	    	} else {
-	    		alert(json.responseJSON);
-		    	$this.val("Verificar");
-				  $this.removeAttr('disabled');
-				  $("#usuario-cpf").removeAttr('disabled');
-	    	}
-      }
-    });
+				$("#" + index).val(dados[key])
+			}
 
 
-	});
+			var status = $("#analise-paga-aluguel").val();
+			if(status != "Não") {
+				$(".show-aluguel").show();
+			}
 
-  $("form").submit(function(e){
-      e.preventDefault();
+			var status = $("#conjuge-atividade-remunerada").val();
+			if(status == "Sim") {
+				$(".show-empresa-conjuge").show();
+			}
 
-      var data = [];
+			var status = $("#referencias").val();
+			if(status == "Sim") {
+				$(".show-referencias").show();
+			}
 
-      $("#user-register :input").each(function(){
+			var status = $("#usuario-atividade-remunerada").val();
+			if(status == "Sim") {
+				$(".show-empresa").show();
+			}
 
-      	var key = $(this)[0].id;
-      	key = key.replace(/-/gi, "_");
+			var status = $("#bens-banco").val();
+			if(status == "Sim") {
+				$(".show-banco").show();
+			}
 
-      	var value = $(this).val();
+			var status = $("#bens-imoveis").val();
+			if(status == "Sim") {
+				$(".show-imoveis").show();
+			}
 
-      	data[key] = value;
+			var status = $("#bens-veiculos").val();
+			if(status == "Sim") {
+				$(".show-veiculos").show();
+			}
+
+			var status = $("#participacao-socidedade").val();
+			if(status == "Sim") {
+				$(".show-socidedade").show();
+			}
+
+			var status = $("#usuario-estado-civil").val();
+			if(status == "Casado") {
+				$(".show-casado").show();
+			}
+
+
+
+
+		}
+
+		function redirecionar() {
+			alert("Os dados usados para acesso não são válidos. Entre pela página inicial. \n\n Você será redirecionado para lá.");
+			window.location = "?page=autenticar_editar_cadastro"
+		}
+
+		function checarToken() {
+
+			var token = $("#token").val();
+			var cpf = $("#cpf").val();
+
+			$.ajax({
+				url: 'http://localhost:8887/vitrini.api/public/index.php/validateToken',
+				dataType: 'json',
+				data:{'token':token,'cpf':cpf},
+				type: 'POST',
+				success: function(json) {
+					sucesso(json);
+				}, error: function(json) {
+					redirecionar();
+				}
+			});
+
+
+		}
+
+		checarToken();
+
+		$("form").submit(function(e){
+			e.preventDefault();
+
+			var data = [];
+
+			$("#user-register :input").each(function(){
+
+				var key = $(this)[0].id;
+				key = key.replace(/-/gi, "_");
+
+				var value = $(this).val();
+
+				data[key] = value;
 			});
 
 			console.log(data);
 
 
-		  $.ajax({
-		    url: 'http://localhost:8887/vitrini.api/public/index.php/users',
-		    data: {
+			$.ajax({
+				url: 'http://localhost:8887/vitrini.api/public/index.php/users',
+				data: {
+					"token" : $("#token").val(),
 					"analise_numero_dependentes" : data['analise_numero_dependentes'],
 					"analise_paga_aluguel" : data['analise_paga_aluguel'],
 					"analise_regime_casamento" : data['analise_regime_casamento'],
@@ -1214,6 +1250,7 @@ $(document).ready(function() {
 					"conjuge_cpf" : data['conjuge_cpf'],
 					"conjuge_date" : data['conjuge_date'],
 					"conjuge_email" : data['conjuge_email'],
+					"conjuge_telefone" : data['conjuge_telefone'],
 					"conjuge_empresa_cargo" : data['conjuge_empresa_cargo'],
 					"conjuge_empresa_data" : data['conjuge_empresa_data'],
 					"conjuge_empresa_nome" : data['conjuge_empresa_nome'],
@@ -1221,7 +1258,6 @@ $(document).ready(function() {
 					"conjuge_empresa_telefone" : data['conjuge_empresa_telefone'],
 					"conjuge_nacionalidade" : data['conjuge_nacionalidade'],
 					"conjuge_name" : data['conjuge_name'],
-					"conjuge_telefone" : data['conjuge_telefone'],
 					"conjuge_naturalidade" : data['conjuge_naturalidade'],
 					"conjuge_profissao" : data['conjuge_profissao'],
 					"conjuge_rg" : data['conjuge_rg'],
@@ -1283,257 +1319,256 @@ $(document).ready(function() {
 					"veiculo_financiado" : data['veiculo_financiado'],
 					"veiculo_placa" : data['veiculo_placa'],
 					"veiculo_valor" : data['veiculo_valor']
-		    },
-		    type: 'POST',
-		    dataType:'JSON',
-		    success: function(json) {
-		    	alert(json);
-	    		window.location = "?page=home"
-		    }, error: function(json) {
-		    	alert(json.responseJSON);
-		    }
-		  });
+				},
+				type: 'PATCH',
+				dataType:'JSON',
+				success: function(json) {
+					alert(json);
+					window.location = "?page=home"
+				}, error: function(json) {
+					alert(json.responseJSON);
+				}
+			});
 
-  });
+});
 
-	$('#submit-button').on('click',function(){
-	  var $this = $(this);
-	});
+$('#submit-button').on('click',function(){
+	var $this = $(this);
+});
 
 
-	$(".show-casado").hide();
-	$(".show-empresa-conjuge").hide();
-	$(".show-empresa").hide();
-	$(".show-alugel").hide();
-	$(".show-sociedade").hide();
-	$(".show-imoveis").hide();
-	$(".show-veiculos").hide();
-	$(".show-banco").hide();
-	$(".show-referencias").hide();
-	$(".show-term").hide();
-	$(".hide-data").hide();
+$(".show-casado").hide();
+$(".show-empresa-conjuge").hide();
+$(".show-empresa").hide();
+$(".show-alugel").hide();
+$(".show-sociedade").hide();
+$(".show-imoveis").hide();
+$(".show-veiculos").hide();
+$(".show-banco").hide();
+$(".show-referencias").hide();
+$(".show-term").hide();
 
-	$('#usuario-cpf, #rg, #conjuge-rg, #telefone, #telefone-aluguel, #telefone-celular').on('blur',function(){
-		var txt = $(this).val();
+$('#usuario-cpf, #rg, #conjuge-rg, #telefone, #telefone-aluguel, #telefone-celular').on('blur',function(){
+	var txt = $(this).val();
 
-		if (txt.length > 0) {
-			var numb = txt.match(/\d/g);
+	if (txt.length > 0) {
+		var numb = txt.match(/\d/g);
 
-			if (numb == null || !numb.length) {
-				$(this).val("");
-				return;
+		if (numb == null || !numb.length) {
+			$(this).val("");
+			return;
+		}
+
+		numb = numb.join("");
+
+		$(this).val(numb);
+	}
+});
+
+$('#term').on('change', function() {
+	var checked = $(this).is(":checked")
+
+	if (checked) {
+		$(".show-term").show();
+	} else {
+		$(".show-term").hide();
+	}
+});
+
+$('#analise-paga-aluguel').on('change', function() {
+	var type = this.value;
+
+	if (type == "Sim, para um proprietário"){
+		$("#type-aluguel").html("do proprietário:");
+		$(".show-alugel").show();
+	} else if (type == "Sim, para uma imobiliária"){
+		$("#type-aluguel").html("da imobiliária:");
+		$(".show-alugel").show();
+	} else {
+		$(".show-alugel").hide();
+	}
+});
+
+$('#conjuge-atividade-remunerada').on('change', function() {
+	var type = this.value;
+
+	if (type == "Sim"){
+		$(".show-empresa-conjuge").show();
+
+		$(".show-empresa-conjuge :input").each(function(){
+			$(this).val("");
+		});
+
+	} else {
+		$(".show-empresa-conjuge").hide();
+
+		$(".show-empresa-conjuge :input").each(function(){
+			$(this).val("");
+		});
+	}
+});
+
+$('#referencias').on('change', function() {
+	var type = this.value;
+
+	if (type == "Sim"){
+		$(".show-referencias").show();
+
+		$(".show-referencias :input").each(function(){
+			$(this).val("");
+		});
+
+	} else {
+		$(".show-referencias").hide();
+
+		$(".show-referencias :input").each(function(){
+			$(this).val("");
+		});
+	}
+});
+
+$('#usuario-atividade-remunerada').on('change', function() {
+	var type = this.value;
+
+	if (type == "Sim"){
+		$(".show-empresa").show();
+
+		$(".show-empresa :input").each(function(){
+			$(this).val("");
+		});
+
+	} else {
+		$(".show-empresa").hide();
+
+		$(".show-empresa :input").each(function(){
+			$(this).val("");
+		});
+	}
+});
+
+$('#bens-banco').on('change', function() {
+	var type = this.value;
+
+	if (type == "Sim"){
+		$(".show-banco").show();
+
+		$(".show-banco :input").each(function(){
+			$(this).val("");
+		});
+
+	} else {
+		$(".show-banco").hide();
+
+		$(".show-banco :input").each(function(){
+			$(this).val("");
+		});
+	}
+});
+
+$('#bens-imoveis').on('change', function() {
+	var type = this.value;
+
+	if (type == "Sim"){
+		$(".show-imoveis").show();
+
+		$(".show-imoveis :input").each(function(){
+			$(this).val("");
+		});
+
+	} else {
+		$(".show-imoveis").hide();
+
+		$(".show-imoveis :input").each(function(){
+			$(this).val("");
+		});
+	}
+});
+
+$('#bens-veiculos').on('change', function() {
+	var type = this.value;
+
+	if (type == "Sim"){
+		$(".show-veiculos").show();
+
+		$(".show-veiculos :input").each(function(){
+			$(this).val("");
+		});
+
+	} else {
+		$(".show-veiculos").hide();
+
+		$(".show-veiculos :input").each(function(){
+			$(this).val("");
+		});
+	}
+});
+
+$('#participacao-socidedade').on('change', function() {
+	var type = this.value;
+
+	if (type == "Sim"){
+		$(".show-sociedade").show();
+
+		$(".show-sociedade :input").each(function(){
+			$(this).val("");
+		});
+
+	} else {
+		$(".show-sociedade").hide();
+
+		$(".show-sociedade :input").each(function(){
+			$(this).val("");
+		});
+	}
+});
+
+$('#usuario-estado-civil').on('change', function() {
+	var type = this.value;
+
+	if (type == "Casado"){
+		$(".show-casado").show();
+
+		$(".show-casado :input").each(function(){
+			$(this).val("");
+		});
+
+	} else {
+		$(".show-casado").hide();
+
+		$(".show-casado :input").each(function(){
+			$(this).val("");
+		});
+	}
+});
+
+$('#endereco-cep').on('blur',function(){
+	var cep = $(this).val();
+
+	if (cep.length > 0) {
+		$.ajax({
+			url: 'https://viacep.com.br/ws/' + cep + '/json/',
+			type: 'GET',
+			success: function(json) {
+
+				$("#endereco-bairro").val(json.bairro);
+				$("#endereco-cep").val(json.cep);
+				$("#endereco-complemento").val(json.complemento);
+				$("#endereco-localidade").val(json.localidade);
+				$("#endereco-logradouro").val(json.logradouro);
+				$("#endereco-uf").val(json.uf);
+				$("#endereco-unidade").val(json.unidade);
+
+				$("#numero").focus();
+			},
+			error: function(json) {
+				alert("CEP inválido");
 			}
-
-			numb = numb.join("");
-
-			$(this).val(numb);
-		}
-	});
-
-	$('#term').on('change', function() {
-		var checked = $(this).is(":checked")
-
-		if (checked) {
-			$(".show-term").show();
-		} else {
-			$(".show-term").hide();
-		}
-	});
-
-	$('#analise-paga-aluguel').on('change', function() {
-		var type = this.value;
-
-		if (type == "Sim, para um proprietário"){
-		  $("#type-aluguel").html("do proprietário:");
-		  $(".show-alugel").show();
-		} else if (type == "Sim, para uma imobiliária"){
-		  $("#type-aluguel").html("da imobiliária:");
-		  $(".show-alugel").show();
-		} else {
-			$(".show-alugel").hide();
-		}
-	});
-
-	$('#conjuge-atividade-remunerada').on('change', function() {
-		var type = this.value;
-
-		if (type == "Sim"){
-		  $(".show-empresa-conjuge").show();
-
-		  $(".show-empresa-conjuge :input").each(function(){
-				 $(this).val("");
-			});
-
-		} else {
-		  $(".show-empresa-conjuge").hide();
-
-		  $(".show-empresa-conjuge :input").each(function(){
-				 $(this).val("");
-			});
-		}
-	});
-
-	$('#referencias').on('change', function() {
-		var type = this.value;
-
-		if (type == "Sim"){
-		  $(".show-referencias").show();
-
-		  $(".show-referencias :input").each(function(){
-				 $(this).val("");
-			});
-
-		} else {
-		  $(".show-referencias").hide();
-
-		  $(".show-referencias :input").each(function(){
-				 $(this).val("");
-			});
-		}
-	});
-
-	$('#usuario-atividade-remunerada').on('change', function() {
-		var type = this.value;
-
-		if (type == "Sim"){
-		  $(".show-empresa").show();
-
-		  $(".show-empresa :input").each(function(){
-				 $(this).val("");
-			});
-
-		} else {
-		  $(".show-empresa").hide();
-
-		  $(".show-empresa :input").each(function(){
-				 $(this).val("");
-			});
-		}
-	});
-
-	$('#bens-banco').on('change', function() {
-		var type = this.value;
-
-		if (type == "Sim"){
-		  $(".show-banco").show();
-
-		  $(".show-banco :input").each(function(){
-				 $(this).val("");
-			});
-
-		} else {
-		  $(".show-banco").hide();
-
-		  $(".show-banco :input").each(function(){
-				 $(this).val("");
-			});
-		}
-	});
-
-	$('#bens-imoveis').on('change', function() {
-		var type = this.value;
-
-		if (type == "Sim"){
-		  $(".show-imoveis").show();
-
-		  $(".show-imoveis :input").each(function(){
-				 $(this).val("");
-			});
-
-		} else {
-		  $(".show-imoveis").hide();
-
-		  $(".show-imoveis :input").each(function(){
-				 $(this).val("");
-			});
-		}
-	});
-
-	$('#bens-veiculos').on('change', function() {
-		var type = this.value;
-
-		if (type == "Sim"){
-		  $(".show-veiculos").show();
-
-		  $(".show-veiculos :input").each(function(){
-				 $(this).val("");
-			});
-
-		} else {
-		  $(".show-veiculos").hide();
-
-		  $(".show-veiculos :input").each(function(){
-				 $(this).val("");
-			});
-		}
-	});
-
-	$('#participacao-socidedade').on('change', function() {
-		var type = this.value;
-
-		if (type == "Sim"){
-		  $(".show-sociedade").show();
-
-		  $(".show-sociedade :input").each(function(){
-				 $(this).val("");
-			});
-
-		} else {
-		  $(".show-sociedade").hide();
-
-		  $(".show-sociedade :input").each(function(){
-				 $(this).val("");
-			});
-		}
-	});
-
-	$('#usuario-estado-civil').on('change', function() {
-		var type = this.value;
-
-		if (type == "Casado"){
-		  $(".show-casado").show();
-
-		  $(".show-casado :input").each(function(){
-				 $(this).val("");
-			});
-
-		} else {
-		  $(".show-casado").hide();
-
-		  $(".show-casado :input").each(function(){
-				 $(this).val("");
-			});
-		}
-	});
-
-	$('#endereco-cep').on('blur',function(){
-	  var cep = $(this).val();
-
-	  if (cep.length > 0) {
-	    $.ajax({
-	      url: 'https://viacep.com.br/ws/' + cep + '/json/',
-	      type: 'GET',
-	      success: function(json) {
-
-	      	$("#endereco-bairro").val(json.bairro);
-					$("#endereco-cep").val(json.cep);
-					$("#endereco-complemento").val(json.complemento);
-					$("#endereco-localidade").val(json.localidade);
-					$("#endereco-logradouro").val(json.logradouro);
-					$("#endereco-uf").val(json.uf);
-					$("#endereco-unidade").val(json.unidade);
-
-					$("#numero").focus();
-	      },
-	      error: function(json) {
-	      	alert("CEP inválido");
-	      }
-	    });
-	  }
+		});
+	}
 
 
 
-	});
+});
 });
 
 
