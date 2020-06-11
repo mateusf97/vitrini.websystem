@@ -8,13 +8,13 @@
 		</div>
 		<div class="row text-center">
 			<div class="columns small-4">
-				<a target="_blank" href="https://www.facebook.com"><img width="35px" src="images/face.png"></a>
+				<a target="_blank" href="https://www.facebook.com/Vitrini.Imob"><img width="35px" src="images/face.png"></a>
 			</div>
 			<div class="columns small-4">
-				<a target="_blank" href="https://www.instagram.com"><img width="35px" src="images/insta.png"></a>
+				<a target="_blank" href="https://www.instagram.com/imobiliariavitrini"><img width="35px" src="images/insta.png"></a>
 			</div>
 			<div class="columns small-4">
-				<a target="_blank" href="https://www.twitter.com"><img width="35px" src="images/twitter.png"></a>
+				<a target="_blank" href="https://api.whatsapp.com/send?l=pt&phone=5531999084848"><img width="35px" src="images/whatsapp.png"></a>
 			</div>
 		</div>
 	</div>

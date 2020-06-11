@@ -1,5 +1,5 @@
 <div class="row text-center top-space">
-	<div class="columns small-12 top-space">
+	<div class="columns small-12 top-space main-title">
 		Bem-vindo ao pré cadastro de dados
 	</div>
 </div>
@@ -10,7 +10,7 @@
 			<div class="row text-left top-space">
 
 				<div class="columns small-12 special-title">
-					Dados pessoais:
+					Informe seus dados pessoais:
 					<hr>
 				</div>
 
@@ -27,7 +27,7 @@
 				</div>
 				<div class="columns small-12 medium-6">
 					<div class="input-data-container">
-						<input autocomplete="off" required class="input-data" value="Verificar" type="button" id="usuario-verifica-cpf">
+						<input autocomplete="off" class="input-data" value="Verificar" type="button" id="usuario-verifica-cpf">
 					</div>
 				</div>
 
@@ -339,7 +339,7 @@
 
 
 				<div class="columns small-12 show-casado">
-					<div class="columns small-12 top-space">
+					<div class="columns small-12 top-space special-title">
 						Dados do conjuge:
 						<hr>
 					</div>
@@ -519,7 +519,7 @@
 
 
 
-				<div class="columns small-12 top-space">
+				<div class="columns small-12 top-space special-title">
 					Endereço:
 					<hr>
 				</div>
@@ -533,7 +533,7 @@
 				</div>
 				<div class="columns small-12 medium-4">
 					<div class="input-data-container">
-						<input autocomplete="off" class="input-data" required type="text" id="endereco-cep">
+						<input autocomplete="off" required class="input-data"  type="text" id="endereco-cep">
 					</div>
 				</div>
 
@@ -638,7 +638,7 @@
 
 
 
-				<div class="columns small-12 top-space">
+				<div class="columns small-12 top-space special-title">
 					Informações para análise:
 					<hr>
 				</div>
@@ -730,7 +730,7 @@
 
 
 
-				<div class="columns small-12 top-space">
+				<div class="columns small-12 top-space special-title">
 					Bens e situação financeira
 					<hr>
 				</div>
@@ -1154,7 +1154,7 @@ $(document).ready(function() {
 	  var cpf = $("#usuario-cpf").val();
 
     $.ajax({
-	    url: 'http://localhost:8887/vitrini.api/public/index.php/user_cpf_status',
+	    url: 'http://localhost:8889/user_cpf_status',
       dataType: 'json',
       data:{'cpf':cpf},
       type: 'POST',
@@ -1181,7 +1181,7 @@ $(document).ready(function() {
   $("form").submit(function(e){
       e.preventDefault();
 
-      var data = [];
+      var data = {};
 
       $("#user-register :input").each(function(){
 
@@ -1195,95 +1195,9 @@ $(document).ready(function() {
 
 			console.log(data);
 
-
 		  $.ajax({
-		    url: 'http://localhost:8887/vitrini.api/public/index.php/users',
-		    data: {
-					"analise_numero_dependentes" : data['analise_numero_dependentes'],
-					"analise_paga_aluguel" : data['analise_paga_aluguel'],
-					"analise_regime_casamento" : data['analise_regime_casamento'],
-					"analise_ultima_cidade" : data['analise_ultima_cidade'],
-					"banco_agencia" : data['banco_agencia'],
-					"banco_cidade" : data['banco_cidade'],
-					"banco_endereco" : data['banco_endereco'],
-					"banco_nome" : data['banco_nome'],
-					"bens_banco" : data['bens_banco'],
-					"bens_imoveis" : data['bens_imoveis'],
-					"bens_veiculos" : data['bens_veiculos'],
-					"conjuge_atividade_remunerada" : data['conjuge_atividade_remunerada'],
-					"conjuge_cpf" : data['conjuge_cpf'],
-					"conjuge_date" : data['conjuge_date'],
-					"conjuge_email" : data['conjuge_email'],
-					"conjuge_empresa_cargo" : data['conjuge_empresa_cargo'],
-					"conjuge_empresa_data" : data['conjuge_empresa_data'],
-					"conjuge_empresa_nome" : data['conjuge_empresa_nome'],
-					"conjuge_empresa_salario" : data['conjuge_empresa_salario'],
-					"conjuge_empresa_telefone" : data['conjuge_empresa_telefone'],
-					"conjuge_nacionalidade" : data['conjuge_nacionalidade'],
-					"conjuge_name" : data['conjuge_name'],
-					"conjuge_telefone" : data['conjuge_telefone'],
-					"conjuge_naturalidade" : data['conjuge_naturalidade'],
-					"conjuge_profissao" : data['conjuge_profissao'],
-					"conjuge_rg" : data['conjuge_rg'],
-					"endereco_bairro" : data['endereco_bairro'],
-					"endereco_cep" : data['endereco_cep'],
-					"endereco_cidade" : data['endereco_cidade'],
-					"endereco_complemento" : data['endereco_complemento'],
-					"endereco_logradouro" : data['endereco_logradouro'],
-					"endereco_numero" : data['endereco_numero'],
-					"endereco_uf" : data['endereco_uf'],
-					"imovel_cidade" : data['imovel_cidade'],
-					"imovel_endereco" : data['imovel_endereco'],
-					"imovel_quitado" : data['imovel_quitado'],
-					"imovel_registro" : data['imovel_registro'],
-					"imovel_valor" : data['imovel_valor'],
-					"participacao_socidedade" : data['participacao_socidedade'],
-					"referencias" : data['referencias'],
-					"referencias_endereco" : data['referencias_endereco'],
-					"referencias_nome" : data['referencias_nome'],
-					"referencias_parentesco" : data['referencias_parentesco'],
-					"referencias_telefone" : data['referencias_telefone'],
-					"renda_fonte_renda" : data['renda_fonte_renda'],
-					"sociedade_capital_social" : data['sociedade_capital_social'],
-					"sociedade_cargo_funcao" : data['sociedade_cargo_funcao'],
-					"sociedade_cnpj" : data['sociedade_cnpj'],
-					"sociedade_data" : data['sociedade_data'],
-					"sociedade_empresa" : data['sociedade_empresa'],
-					"sociedade_participacao" : data['sociedade_participacao'],
-					"sociedade_registro" : data['sociedade_registro'],
-					"sociedade_ultima_data" : data['sociedade_ultima_data'],
-					"submit_button" : data['submit_button'],
-					"telefone_aluguel" : data['telefone_aluguel'],
-					"tempo_aluguel" : data['tempo_aluguel'],
-					"term" : data['term'],
-					"usuario_atividade_remunerada" : data['usuario_atividade_remunerada'],
-					"usuario_cpf" : data['usuario_cpf'],
-					"usuario_data_nascimento" : data['usuario_data_nascimento'],
-					"usuario_email" : data['usuario_email'],
-					"usuario_empresa_bairro" : data['usuario_empresa_bairro'],
-					"usuario_empresa_cargo" : data['usuario_empresa_cargo'],
-					"usuario_empresa_cidade" : data['usuario_empresa_cidade'],
-					"usuario_empresa_data" : data['usuario_empresa_data'],
-					"usuario_empresa_edenreco" : data['usuario_empresa_edenreco'],
-					"usuario_empresa_nome" : data['usuario_empresa_nome'],
-					"usuario_empresa_outros_rendimentos" : data['usuario_empresa_outros_rendimentos'],
-					"usuario_empresa_salario" : data['usuario_empresa_salario'],
-					"usuario_empresa_telefone" : data['usuario_empresa_telefone'],
-					"usuario_empresa_uf" : data['usuario_empresa_uf'],
-					"usuario_estado_civil" : data['usuario_estado_civil'],
-					"usuario_nacionalidade" : data['usuario_nacionalidade'],
-					"usuario_naturalidade" : data['usuario_naturalidade'],
-					"usuario_profissao" : data['usuario_profissao'],
-					"usuario_rg" : data['usuario_rg'],
-					"usuario_telefone" : data['usuario_telefone'],
-					"usuario_telefone_celular" : data['usuario_telefone_celular'],
-					"usuario_usuario_name" : data['usuario_usuario_name'],
-					"valor_aluguel" : data['valor_aluguel'],
-					"veiculo_dados" : data['veiculo_dados'],
-					"veiculo_financiado" : data['veiculo_financiado'],
-					"veiculo_placa" : data['veiculo_placa'],
-					"veiculo_valor" : data['veiculo_valor']
-		    },
+		    url: 'http://localhost:8889/users',
+		    data: data,
 		    type: 'POST',
 		    dataType:'JSON',
 		    success: function(json) {

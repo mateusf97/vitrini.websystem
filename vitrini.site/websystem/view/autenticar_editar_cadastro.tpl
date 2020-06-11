@@ -1,5 +1,5 @@
 <div class="row text-center top-space">
-	<div class="columns small-12 top-space">
+	<div class="columns small-12 top-space main-title">
 		Se identifique para poder alterar, adicionar, ou remover seus dados.
 	</div>
 </div>
@@ -90,7 +90,7 @@ $(document).ready(function() {
 		var data = $("#usuario-data-nascimento").val();
 
 		$.ajax({
-			url: 'http://localhost:8887/vitrini.api/public/index.php/autenticar',
+			url: 'http://localhost:8889/autenticar',
 			dataType: 'json',
 			data:{'cpf':cpf, 'celular':celular, 'data':data},
 			type: 'POST',

@@ -18,14 +18,8 @@
       <div class="columns medium-6 small-12 header-image">
         <a href="?page=home"><img src="images/logo.svg"></a>
       </div>
-      <div class="columns small-12 medium-6 header-search">
-        <form action="">
-        <input type="text" name="page">
-
-        <button type="submit" class="no-format">
-          <img width="35" src="images/search.png">
-        </button>
-        </form>
+      <div class="columns small-12 medium-6">
+        <div class="header-title">Levando você ao imóvel certo!</div>
       </div>
     </div>
   </div>
