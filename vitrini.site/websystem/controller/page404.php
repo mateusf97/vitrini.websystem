@@ -1,3 +1,4 @@
 <?php
-	require 'view/error404.tpl';
+  header("Location: /");
+  die();
 ?>

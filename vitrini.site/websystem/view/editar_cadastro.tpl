@@ -1128,6 +1128,10 @@
 
 			console.log(dados)
 
+			if (dados["usuario_atividade_remunerada"] == null) {
+				dados["usuario_atividade_remunerada"] = "Não";
+			}
+
 			for (key in dados) {
 
 				var index = key;
@@ -1234,9 +1238,9 @@
 			console.log(data);
 
 			$.ajax({
-				url: 'http://localhost:8889/users',
+				url: 'http://localhost:8889/user_update',
 				data: data,
-				type: 'PATCH',
+				type: 'POST',
 				dataType:'JSON',
 				success: function(json) {
 					alert(json);

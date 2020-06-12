@@ -9,6 +9,7 @@
   <script type="text/javascript" src="scripts/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="scripts/jquery-validation.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
+  <link rel="icon" href="images/ico.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>

@@ -1202,7 +1202,7 @@ $(document).ready(function() {
 		    dataType:'JSON',
 		    success: function(json) {
 		    	alert(json);
-	    		window.location = "?page=home"
+	    		window.location = "?page=home";
 		    }, error: function(json) {
 		    	alert(json.responseJSON);
 		    }
