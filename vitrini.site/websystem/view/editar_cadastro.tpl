@@ -1124,9 +1124,9 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 
-		function sucesso(dados) {
+		var api_url = 'http://localhost:8889';
 
-			console.log(dados)
+		function sucesso(dados) {
 
 			if (dados["usuario_atividade_remunerada"] == null) {
 				dados["usuario_atividade_remunerada"] = "Não";
@@ -1188,7 +1188,7 @@
 		}
 
 		function redirecionar() {
-			alert("Os dados usados para acesso não são válidos. Entre pela página inicial. \n\n Você será redirecionado para lá.");
+			alert("Seu cadastro já está me análise ou seus dados usados para acesso não são mais válidos, entre pela página inicial ou aguarde a análise dos seus dados. \n\n Você será redirecionado para página de autenticação.");
 			window.location = "?page=autenticar_editar_cadastro"
 		}
 
@@ -1198,7 +1198,7 @@
 			var cpf = $("#cpf").val();
 
 			$.ajax({
-				url: 'http://localhost:8889/validateToken',
+				url: api_url +'/validateToken',
 				dataType: 'json',
 				data:{'token':token,'cpf':cpf},
 				type: 'POST',
@@ -1210,12 +1210,29 @@
 			});
 		}
 
+		function checkEnabled() {
+
+			var token = $("#token").val();
+
+			$.ajax({
+				url: api_url +'/checkEnabled/' + token,
+				dataType: 'json',
+				type: 'POST',
+				error: function(json) {
+					$('input').attr("disabled", "disabled");
+					$('select').attr("disabled", "disabled");
+					alert("O seu perfil está em análise. Você não pode mais editar os dados.");
+				}
+			});
+		}
+
 		checarToken();
+		checkEnabled();
 
 		$("form").submit(function(e){
 			e.preventDefault();
 
-			var data = [];
+			var data = {};
 
 			if(!$("#term").is(':checked')) {
 				alert("Você precisa declarar que as informações da página são válidas antes de continuar.");
@@ -1235,12 +1252,10 @@
 
 			data["token"] = $("#token").val();
 
-			console.log(data);
-
 			$.ajax({
-				url: 'http://localhost:8889/user_update',
+				url: api_url +'/users',
 				data: data,
-				type: 'POST',
+				type: 'PATCH',
 				dataType:'JSON',
 				success: function(json) {
 					alert(json);

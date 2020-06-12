@@ -1127,6 +1127,7 @@
 $(document).ready(function() {
 
 	var valid = false;
+	var api_url = 'http://localhost:8889';
 
  	$('#usuario-cpf').on('keypress', function (e) {
 
@@ -1154,7 +1155,7 @@ $(document).ready(function() {
 	  var cpf = $("#usuario-cpf").val();
 
     $.ajax({
-	    url: 'http://localhost:8889/user_cpf_status',
+	    url: api_url + '/user_cpf_status',
       dataType: 'json',
       data:{'cpf':cpf},
       type: 'POST',
@@ -1193,10 +1194,8 @@ $(document).ready(function() {
       	data[key] = value;
 			});
 
-			console.log(data);
-
 		  $.ajax({
-		    url: 'http://localhost:8889/users',
+		    url: api_url + '/users',
 		    data: data,
 		    type: 'POST',
 		    dataType:'JSON',

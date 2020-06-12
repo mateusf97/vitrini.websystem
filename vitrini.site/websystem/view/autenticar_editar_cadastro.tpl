@@ -26,18 +26,6 @@
 					</div>
 				</div>
 
-				<div class="columns small-12"></div>
-
-				<div class="columns small-12 medium-2">
-					<div class="input-data-container padding">
-						Telefone Celular:
-					</div>
-				</div>
-				<div class="columns small-12 medium-4">
-					<div class="input-data-container">
-						<input autocomplete="off" required class="input-data" type="phone" id="usuario-celular">
-					</div>
-				</div>
 
 				<div class="columns small-12"></div>
 
@@ -46,12 +34,24 @@
 						Data Nascimento:
 					</div>
 				</div>
-				<div class="columns small-12 medium-4 end">
+				<div class="columns small-12 medium-4">
 					<div class="input-data-container">
 						<input autocomplete="off" required class="input-data" type="date" id="usuario-data-nascimento">
 					</div>
 				</div>
 
+				<div class="columns small-12"></div>
+
+				<div class="columns small-12 medium-2">
+					<div class="input-data-container padding">
+						Telefone Celular:
+					</div>
+				</div>
+				<div class="columns small-12 medium-4 end">
+					<div class="input-data-container">
+						<input autocomplete="off" required class="input-data" type="phone" id="usuario-celular">
+					</div>
+				</div>
 			</div>
 
 			<div class="columns small-12 top-space-double"></div>
@@ -70,6 +70,8 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+
+	var api_url = 'http://localhost:8889';
 
 	$('#usuario-verifica-dados').on('click',function(){
 		var $this = $(this);
@@ -90,7 +92,7 @@ $(document).ready(function() {
 		var data = $("#usuario-data-nascimento").val();
 
 		$.ajax({
-			url: 'http://localhost:8889/autenticar',
+			url: api_url + '/autenticar',
 			dataType: 'json',
 			data:{'cpf':cpf, 'celular':celular, 'data':data},
 			type: 'POST',

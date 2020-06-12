@@ -13,6 +13,6 @@
       </div>
 		</div>
 		<div class="columns medium-6 small-12 top-space banner-image">
-      <a href="https://www.imobiliariavitrini.com.br/"><img src="images/banner.png"></a>
+      <a href="https://www.imobiliariavitrini.com.br/"><img src="images/banner.jpg"></a>
 		</div>
 	</div>
