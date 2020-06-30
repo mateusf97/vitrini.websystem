@@ -1,0 +1,68 @@
+  Identidade e CPF
+  Comprovante de residencia
+
+Se casado:
+
+  Se casado Identidade e CPF do parceiro
+  Se casado Certidão de casamento do conjuge
+
+OP:
+
+  Exerce atividade remunerada ou tem fonte de renda?
+    Comprovante de renda
+
+  Tem imóveis ou propriedades?
+    Registro de imóvel
+
+  Tem veículos no seu nome?
+    Documento de veículo
+
+  Tem participações em sociedades?
+    Contrato social
+
+
+
+
+
+
+
+Novos campos na ficha:
+
+
+tem vinculo com a UFMG?
+
+Não
+
+Sim => Qual? => Campo em branco
+Sim => Upload de arquivo => Comprovante opcional
+
+_________________________________
+
+
+Mais um botão de ação: Analista (Só No Admin)
+
+Nome e CPF na parte de cima
+
+Endereço do Imóvel:
+Valor do aluguel:
+
+
+Dados de análise:
+
+
+SPC: + CAMPO EM BRANCO
+SERASA: + CAMPO EM BRANCO
+TJ: + CAMPO EM BRANCO
+OBSERVAÇÕES: + CAMPO LIVRE DE TEXTO
+
+
+(Isso vai pro resumo)
+
+
+_______________________________
+
+Mais um botão de ação: IMPRIMIR (Só No Admin)
+
+Imprimir a ficha com todos os dados, e os documentos
+
+_______________________________
